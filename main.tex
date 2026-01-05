@@ -117,9 +117,11 @@
 
 \maketitle
 \begin{abstract}
-    Hello and welcome! As the title suggests, these are my lecture notes on Game Theory. Our professor is \textbf{Sylvester Zhang}. The textbook that we are using is \textbf{some game theory tb}.
+    Hello and welcome! As the title suggests, these are my lecture notes on Game Theory. Our professor is \textbf{Sylvester Zhang}. The textbook that we are using is \textbf{Game Theory, Alive by Anna R. Karlin and Yuval Peres}.
     
-    The goal of these lecture notes is to write \textbf{understandable} math. Some dude said, "If you can't explain it to a six year old, then you don't understand it yourself". The hope is that anyone coming across these notes (like you!) will be able to at least take away the gist of these concepts. Email me at darsh [at] ucla [dot] edu if you find any errors! \\
+    The goal of these lecture notes is to write \textbf{understandable} math. Some dude said, "If you can't explain it to a six year old, then you don't understand it yourself". The hope is that anyone coming across these notes (like you!) will be able to at least take away the gist of these concepts. Email me at darsh [at] ucla [dot] edu if you find any errors!
+
+    Huge shoutout to \url{https://zitong.me/notes/rings-notes.pdf} who inspired me to attend class and lock in.
 \end{abstract}
 
 \tableofcontents
@@ -137,209 +139,12 @@
 ]
 
 \newpage
-\section{Lecture 1: Jan 6}
-Today was the first lecture of the quarter. We spoke briefly about course logistics and preamble information, as well as a brief overview of the integers. Something cool I learned was a new perspective on the Euclidean Algorithm, which will be described below.  
-\subsection{Course Preamble}
-This course will cover the basic foundations of Ring Theory. There will be 4 ways in which students are assessed -- homeworks, quizzes (of which there are 2), midterm, and final exam. 
-\subsection{Integers}
-To start off the lecture, we approached a few example problems together as a review of integers.
-\begin{example}
-    Solve the following within the set of integers $\Z$
-    \begin{gather*}
-        x^2-y^2 = 31\\
-        (x+y)(x-y) = 31
-    \end{gather*}
-    First, notice that 31 is a \textit{prime number}. Thus, our factors $x+y$ and $x-y$ must be $\pm1, \pm31$. This leads us to 4 combinations of
-    \begin{align*}
-        (x, y) = (16, 15), (-16, -15), (16, -15), (-16, -15)
-    \end{align*}
-\end{example}
-Yay! Good start. From there, we went into some definition refreshers.
-\begin{definition}[Divides]
-    If $a, b \in \Z$ and $b \neq 0$, then we say \textbf{"b divides a"} and denote $b \mid  a$ or $a \vdots b$ if there exists some $c \in \Z$ such that $a = bc$
-\end{definition}
-\begin{definition}[Greatest common divisor]
-    Let $a, b \in \Z$ with at least one being non-zero. We say $d \in \Z$ is the \textbf{greatest common divisor} of $a$ and $b$ and denote $\gcd(a, b) = d$ if
-    \begin{enumerate}
-        \item $d\mid a$ and $d\mid b$
-        \item $d$ is the \textit{largest} integer to satisfy (1)
-    \end{enumerate}
-\end{definition}
-\begin{definition}[Prime number]
-    We say $p \in \Z_{>1}$ is \textbf{prime} if its only positive divisors are $1$ and $p$.    
-\end{definition}
-\begin{theorem}[Fundamental Theorem of Arithmetic]
-    If $n \in \Z$ with $n \neq 0, \pm 1$, then there exists a \emph{unique} prime decomposition of $n$
-    \begin{align*}
-        n = \pm p_1^{a_1}p_2^{a_2}\cdots p_m^{a_m}
-    \end{align*}
-    where $p_1 < p_2 < \cdots < p_m$ are primes, and $a_1, ..., a_m \geq \Z_{>0}$.
-\end{theorem}
-\begin{proof}[Proof of existence (sketch)]
-    Assume $n \in \Z_{>1}$. Now if $n$ is prime, we are done. Otherwise, there must exist some $a \in \Z$ with $1 < a < n$ such that $a \mid  n$. Which leads to some $n/a \in \Z$ with $1 < n/a < n$.
+\section{Lecture 1: Jan 5}
+\subsection{Introduction}
+Today, the professor arrived 20 minutes late so we just did a brief intro on things we're gonna do in the class like combinatorial games, two-person zero sum games, general sum games, Nash equilibria, fixed-point theorem, and evolutionary models.
 
-    By strong induction, both $a$ and $n/a$ have prime decompositions, and hence so does $n = a \cdot n/a$.
-\end{proof}
+Apparently, the fixed point theorem is used to prove something related to the Nash equilibria. Interestingly enough, Zitong sent me \href{https://www.instagram.com/p/DNoxJ-khwvu/}{this reel} a few days ago where I first learned about the fixed point theorem.
 
-\begin{theorem}[Division with Remainders]
-    Let $a, b\in\Z, b \neq 0$. Then there exists \emph{unique} $q \in \Z$ and $r \in \Z_{>0}$ such that\begin{enumerate}
-        \item $a = bq + r$, and
-        \item $0 \leq r < |b|$
-    \end{enumerate}
-    Such $q$ is called the quotient, and $r$ is the remainder.
-\end{theorem}
-
-This leads us to a very \textit{powerful} corollary!
-
-\begin{corollary}[Euclidean Algorithm]
-This gives us a very fast algorithm to find $\gcd(a,b)$
-    \begin{align*}
-        \gcd(a,b) = \gcd(b,r)
-    \end{align*}
-\end{corollary}
-\begin{example}
-    Find the greatest common divisor of 524 and 148.
-    \begin{align*}
-        &\quad\gcd(524, 148) &&\\
-        &= \gcd(148, 80) &&[524 = 148\cdot3 + 80]\\
-        &= \gcd(80, 68) &&[148 = 80 \cdot 1 + 68]\\
-        &= \gcd(68, 12) &&[80 = 68 \cdot 1 + 12]\\
-        &\quad\quad\quad\vdots\\
-        &= \gcd(4, 0) = 4
-    \end{align*}
-\end{example}
-\begin{remark}
-    Instead of dividing with remainder, we can also simply \textbf{subtract}.
-\end{remark}
-Let's do an example with this remark in mind!
-\begin{example}
-    Simplify $\frac{2n+13}{n+7}$.
-    \begin{align*}
-        \gcd(2n+13,n+7) = \gcd(n+7,n+6) = \gcd(n+6,1) = 1
-    \end{align*}
-\end{example}
-Since both polynomials share a greatest common divisor of 1, the fraction must already be in its simplest form.
-
-We then went over a stronger version of the previous remark.
-\begin{corollary}
-    For $a,b \in\Z$ and $b\neq0$, if $a=sb+t$ for $s,t\in\Z$, then $\gcd(a,b) = \gcd(b,t)$
-\end{corollary}
-\begin{proof}
-    We seek to show that the set of all common divisors of $a$ and $b$ is equal to that of $b$ and $t$. Consequently, the largest elements in both sets are the same.
-
-    Let $d$ be some divisor of $a$ and $b$. Indeed, if $d\mid a$ and $d\mid b$, then $a = dk$ and $b = dl$ for some $k,l\in\Z$. Then
-    \begin{align*}
-        t = a-bs = dk-dls = d(k-ls),
-    \end{align*}
-    and so $d\mid t$, that is $d\mid b$ and $d\mid t$.
-
-    Conversely, if $d\mid b$ and $d\mid t$, then $d\mid (bs+t)$ so $d\mid a$. Thus, $d\mid a$ and $d\mid b$.
-\end{proof}
-\newpage
-\begin{definition}[Division Ring]
-A ring where all non-zero elements are invertible is sometimes called a "non-commutative field". Such a structure is known as a \textbf{(non-commutative) division ring}.
-\end{definition}
-\begin{remark}
-    Technically, more rigorously, in general, ``division rings" refer to rings where all elements are invertible, and doesn't imply non-commutativity.
-\end{remark}
-To start, we considered the 4-dimensional vector space $\H$ with basis $1, i, j, k$. So elements are of the form $a + bi + cj + dk$, where $a, b, c, d \in \R$.
-
-Addition is simple- we add like-terms!\begin{gather*}
-    v = a + bi + cj + dk\\
-    w = a' + b'i + c'j + d'k\\
-    (v+w) = (a+a') + (b + b')i + (c+ C') j + (d + d')k
-\end{gather*}
-
-Now we need to define multiplication. We define these products as follows:\begin{itemize}
-    \item $1$ is the identity, and $rq = qr$ for any quaternion $q \in \H$ and $r \in \R$.
-    \item For other basis vectors\begin{gather*}
-        i^2 = j^2 = k^2 = -1\\
-        ij = k\quad jk = -k\\
-        jk = i\quad kj = -i\\
-        ki = j\quad ik = -j
-    \end{gather*}
-\end{itemize}
-\begin{intuition}
-    Here, imagine $i$, $j$, and $k$ lie on a circle in that order when traversed clockwise. Now, multiplication is simply traversing along that circle from the first element to the second, where CW implies positive and CCW implies negative.
-\end{intuition}
-The product is then extended to all elements of $\H$ by using the distributive law.
-\begin{example}
-    Compute $(a+bi+cj+dk)(a'+b'i+c'j+d'k)$\begin{align*}
-        (a+bi+cj+dk)(a'+b'i+c'j+d'k) &= aa'+ab'i+ac'j+ad'k +\\
-        & ba'i + bb'(-1) +bc'k + bd'(-j) +\\
-        & ca'j + cb'(-k) + cc'(-1) + cd'i +\\
-        & da'k + db'j + dc'(-i) + dd'(-1)
-    \end{align*}
-    \begin{align*}
-        (a+bi+cj+dk)(a'+b'i+c'j+d'k) &= (aa' - bb' - cc' - dd') + (ab' + ba' + cd' - dc')i\\
-        &+ (ac' - bd' + ca' + db')j + (ad' + bc' - cb' + da')k
-    \end{align*}
-\end{example}
-Here comes the fun- let's now prove that $\H$ is a ring. We need to check that $+$ and $\times$ satisfy the desired properties.
-
-Remember that $\H$ is just some vector space $\R^4$, so properties of $+$ simply follow. $\times$ and distributivity will be proved in HW3, and the identity is simple as well: $1 = 1 + 0i + 0j + 0k$.
-
-How do we check that $\H$ has a multiplicative inverse? Well, recall from $\C$ that $\frac{1}{a+bi} = \frac{1}{a^2 + b^2}(a-bi)$, and so by analogy, the inverse\begin{gather*}
-    v = a + bi + cj + dk \neq 0\\
-    \frac 1v = \frac{1}{a+bi+cj+dk} = \frac{1}{a^2 + b^2 + c^2 + d^2}(a - bi - cj - dk)
-\end{gather*}
-(a more rigorous proof will be given on the hw)
-
-Note also that $\R$ and $\C$ are commutative \textit{subrings} of $\H$. 
-
-Finally, as a summary, the ring $\H$ of quaternions is a non-commutative \textbf{division ring} (ring with $1$ and each element has an inverse).
-
-\subsection{Basic properties of rings (cont'd)}
-Assume $R$ is a ring. We already saw that the zero element, the identity, and for each element, its additive inverse, are all \textit{unique}! This means that we can now define subtraction.
-
-That is, we define $a - b := a + (-b)$.
-
-\textbf{Canncellation property:} In a ring $R$, $a+b = a+c$ if and only if $b = c$.
-
-Note that unless $R$ is a division ring, we cannot apply the same logic to multiplication (elements don't have an inverse, and there may not even be a multiplicative identity!)
-
-That doesn't necessarily mean the multiplication cancellation won't hold if $R$ is not a division ring though!! In fact, we now discuss the cancellation property in integral domains. \begin{proposition}
-    If $R$ is an integral domain, then $ab = ac, a\neq 0$ does imply $b = c$.
-\end{proposition}
-\begin{proof}
-    Begin by subtracting both sides by $ac$. We get\begin{align*}
-        ab - ac = a(b-c) = 0
-    \end{align*}
-    Since $R$ is an integral domain and $a \neq 0$, we must have by definition of integral domains that $b-c = 0$.
-\end{proof}
-Here is another useful fact
-\begin{proposition}
-    Any field $F$ is an integral domain.
-\end{proposition}
-\begin{proof}
-    We need to show that for $a, b \in F$, if $ab = 0$ and wlog $a \neq 0$, then $b = 0$. Simply multiply both sides by $a^{-1}$, we get\begin{align*}
-        a^{-1}(ab) = (a^{-1}a)b = b = 0 = 0\cdot a^{-1}
-    \end{align*}
-\end{proof}
-In general, not all integral domains can be fields. One example of this is $\Z$. 
-
-But is there some property to say that \textit{some} integral domains are fields? Yes. There is.
-\begin{theorem}
-    If $R$ is a \emph{finite} integral domain (i.e., $|R| < \infty$), then $R$ is a field.
-\end{theorem}
-\begin{intuition}
-    The intuition here is that if $R$ is finite, then it will have modular arithmetic-esque behavior. Meaning if you multiply every pair of elements then it has to like ``circle back" at some point and go back to 1, and that's where we find the inverse.
-\end{intuition}
-\begin{proof}
-    We need to show that every element in $R$ has a multiplicative inverse. Since $R$ is finite, let's first list out all of its elements\begin{align*}
-        R = \{0, a_1, a_2, ..., a_n\}
-    \end{align*}
-    (here we suppose $R$ has $n$ non-zero elements)
-
-    Pick any $a_i$. We'll show that there exist some $a_i^{-1}$. We do this by writing out the ``row" of the multiplication table of $R$, aka $\{a_ia_1, a_ia_2, ..., a_ia_n\}$
-
-    Notice two things about this row: (1) none of these elements can be $0$, since $R$ is an integral domain. (2) there cannot be any duplicate elements, since by the cancellation property, we have $a_ia_j = a_ia_k$ implies that $a_j = a_k$ which means $j = k$.
-
-    Since no elements of the row are 0, and no elements repeat, we thus know that the row must contain every non-zero element in $R$. This is huge(!), as it implies that there exists some $j$ where\begin{align*}
-        a_ia_j = 1
-    \end{align*}
-    where $1$ is the identity, meaning $a_j = a^{-1}_i$.
-\end{proof}
-We now have a complete picture of the types of rings! 
+We ended lecture by playing the classic $4 \times 5$ version of \href{https://en.wikipedia.org/wiki/Chomp}{Chomp}! It seems to me that the first player always has a winning strategy but I need to formalize why this is true.
 
 \end{document}
