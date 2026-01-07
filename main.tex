@@ -14,6 +14,7 @@
 \usepackage{mathtools}
 \usepackage{tikz} 
 \usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows.meta}
 
 %----- NEW COMMANDS -----%
 \newcommand{\N}[0]{\mathbb{N}}
@@ -146,5 +147,117 @@ Today, the professor arrived 20 minutes late so we just did a brief intro on thi
 Apparently, the fixed point theorem is used to prove something related to the Nash equilibria. Interestingly enough, Zitong sent me \href{https://www.instagram.com/p/DNoxJ-khwvu/}{this reel} a few days ago where I first learned about the fixed point theorem.
 
 We ended lecture by playing the classic $4 \times 5$ version of \href{https://en.wikipedia.org/wiki/Chomp}{Chomp}! It seems to me that the first player always has a winning strategy but I need to formalize why this is true.
+\newpage
+\section{Jan 7 : Lecture 2}
+\subsection{Impartial Combinatorial games}
+\begin{itemize}
+  \item two-player games, alternate turns
+  \item perfect information
+  \item no randomess
+  \item both players have the same set of moves
+  \item player who takes the last move wins
+  \item win or loss outcome
+\end{itemize}
+\begin{example}
+  There are $n$ chips on a table. There are two players, Larry and Rick. A valid move is to take 1, 2, or 3 chips from the pile. Assume that Larry goes first and the player who takes the last chip wins.
+  \\
+  We proceed with backward induction. Let's define the following states: \\
+  $N$ : the next player to take a move wins. \\
+  $P$ : the previous player that took a move won. \\
+  These are conventions because you can have multiple players instead of just two. We could have also just called them you and your opponent.
 
+
+  Backward induction just means that we start analyzing states by having 0 chips on the table. That falls under state $P$. This implies that if there are 1, 2, or 3 chips on the table, those fall under state $N$ because the next player who moves can just take 1, 2, or 3 chips and win the game. Similarly, we can extend this logic that 4 chips falls under state $P$, and so on. \\
+  It turns out that the Larry has a 75\% chance of winning, and Rick has a 25\% chance of winning simply because of who went first.
+
+  
+\end{example}
+\begin{example}[Chomp]
+  Given a $2 \times 3$ chocolate bar,  here are the possible states it can go to
+\end{example}
+\begin{center}
+\begin{tikzpicture}[
+  square/.style={minimum size=0.6cm, draw, thick},
+  chocolate/.style={square, fill=brown!60},
+  poison/.style={square, fill=red!40},
+  eaten/.style={square, fill=white, draw=gray!50, dashed},
+  arrow/.style={-{Stealth[length=3mm]}, thick, gray}
+]
+
+% Initial 2x3 bar (center top)
+\begin{scope}[shift={(0,3)}]
+  \node[poison] at (0,0) {};
+  \node[chocolate] at (0.6,0) {};
+  \node[chocolate] at (1.2,0) {};
+  \node[chocolate] at (0,0.6) {};
+  \node[chocolate] at (0.6,0.6) {};
+  \node[chocolate] at (1.2,0.6) {};
+ % \node at (0.6,-0.5) {\small Initial};
+\end{scope}
+
+% State 1: Remove top-right (1,2) -> 2x2 + 1
+\begin{scope}[shift={(-5,0)}]
+  \node[poison] at (0,0) {};
+  \node[chocolate] at (0.6,0) {};
+  \node[chocolate] at (1.2,0) {};
+  \node[chocolate] at (0,0.6) {};
+  \node[chocolate] at (0.6,0.6) {};
+  \node[eaten] at (1.2,0.6) {};
+  \node at (0.6,-0.5) {\small 1};
+\end{scope}
+
+% State 2: Remove top-middle and top-right -> 1x3 + 1x1
+\begin{scope}[shift={(-2.5,0)}]
+  \node[poison] at (0,0) {};
+  \node[chocolate] at (0.6,0) {};
+  \node[chocolate] at (1.2,0) {};
+  \node[chocolate] at (0,0.6) {};
+  \node[eaten] at (0.6,0.6) {};
+  \node[eaten] at (1.2,0.6) {};
+  \node at (0.6,-0.5) {\small 2};
+\end{scope}
+
+% State 3: Remove entire top row -> 1x3
+\begin{scope}[shift={(0,0)}]
+  \node[poison] at (0,0) {};
+  \node[chocolate] at (0.6,0) {};
+  \node[chocolate] at (1.2,0) {};
+  \node[eaten] at (0,0.6) {};
+  \node[eaten] at (0.6,0.6) {};
+  \node[eaten] at (1.2,0.6) {};
+  \node at (0.6,-0.5) {\small 3};
+\end{scope}
+
+% State 4: Remove right column -> 2x2
+\begin{scope}[shift={(2.5,0)}]
+  \node[poison] at (0,0) {};
+  \node[chocolate] at (0.6,0) {};
+  \node[eaten] at (1.2,0) {};
+  \node[chocolate] at (0,0.6) {};
+  \node[chocolate] at (0.6,0.6) {};
+  \node[eaten] at (1.2,0.6) {};
+  \node at (0.6,-0.5) {\small 4};
+\end{scope}
+
+% State 5: Remove two right columns -> 2x1
+\begin{scope}[shift={(5,0)}]
+  \node[poison] at (0,0) {};
+  \node[eaten] at (0.6,0) {};
+  \node[eaten] at (1.2,0) {};
+  \node[chocolate] at (0,0.6) {};
+  \node[eaten] at (0.6,0.6) {};
+  \node[eaten] at (1.2,0.6) {};
+  \node at (0.6,-0.5) {\small 5};
+\end{scope}
+
+% Arrows from initial state to all 5 states
+\draw[arrow] (-0.3,2.5) -- (-4.4,1.1);
+\draw[arrow] (0.3,2.5) -- (-1.9,1.1);
+\draw[arrow] (0.6,2.5) -- (0.6,1.1);
+\draw[arrow] (0.9,2.5) -- (3.1,1.1);
+\draw[arrow] (1.5,2.5) -- (5.6,1.1);
+
+\end{tikzpicture}
+\end{center}
+We ended class with a quiz on induction.
 \end{document}
