@@ -15,6 +15,7 @@
 \usepackage{tikz} 
 \usetikzlibrary{shapes.geometric}
 \usetikzlibrary{arrows.meta}
+\usetikzlibrary{decorations.pathreplacing}
 
 %----- NEW COMMANDS -----%
 \newcommand{\N}[0]{\mathbb{N}}
@@ -260,4 +261,147 @@ We ended lecture by playing the classic $4 \times 5$ version of \href{https://en
 \end{tikzpicture}
 \end{center}
 We ended class with a quiz on induction.
+
+\newpage
+\section{Lecture 3 : Jan 9}
+I'm not sure what these initial definitions are but I'll understand later.
+\begin{definition}
+  $P_0 = P_1 = \{\text{terminal position}\}$ \\
+  $N_{n+1} = \{x \mid \text{there exists a move } x \rightarrow y, y \in P_n\}$ \\
+  $P_{n+1} = \{x \mid \text{there exists a move } x \rightarrow y, y \in N_n\}$
+\end{definition}
+
+\begin{definition}[Progressively Bounded]
+  A game is called progressive bounded if for every position $x$, there exists an upper bound $B(x) \in \Z_{\geq 0}$ on the number of moves until the game stops.
+  
+\end{definition}
+
+Now, we will talk about potential winning strategies for the Game Chomp.
+
+\begin{proposition}[Chomp Winners be like]
+  For any rectangular $n \times m$ Chomp game, the player that goes first wins!
+\end{proposition}
+\begin{proof}
+  If we have a square board, start off by removing everything from the square up and to the right of the poisoned square. Then, just mimic your opponent.
+  \begin{center}
+  \begin{tikzpicture}[
+    square/.style={minimum size=0.6cm, draw, thick},
+    chocolate/.style={square, fill=brown!60},
+    poison/.style={square, fill=red!40},
+    eaten/.style={square, fill=white, draw=gray!50, dashed},
+    arrow/.style={-{Stealth[length=3mm]}, thick, gray}
+  ]
+  
+  % Complete 3x3 grid (left side)
+  \begin{scope}[shift={(0,0)}]
+    \node[poison] at (0,0) {};
+    \node[chocolate] at (0.6,0) {};
+    \node[chocolate] at (1.2,0) {};
+    \node[chocolate] at (0,0.6) {};
+    \node[chocolate] at (0.6,0.6) {};
+    \node[chocolate] at (1.2,0.6) {};
+    \node[chocolate] at (0,1.2) {};
+    \node[chocolate] at (0.6,1.2) {};
+    \node[chocolate] at (1.2,1.2) {};
+  \end{scope}
+  
+  % Arrow P1
+  \draw[arrow] (2,0.6) -- (3.5,0.6) node[midway, above] {\small $P_1$};
+  
+  % L-shaped result after P1's move
+  \begin{scope}[shift={(4.5,0)}]
+    \node[poison] at (0,0) {};
+    \node[chocolate] at (0.6,0) {};
+    \node[chocolate] at (1.2,0) {};
+    \node[chocolate] at (0,0.6) {};
+    \node[eaten] at (0.6,0.6) {};
+    \node[eaten] at (1.2,0.6) {};
+    \node[chocolate] at (0,1.2) {};
+    \node[eaten] at (0.6,1.2) {};
+    \node[eaten] at (1.2,1.2) {};
+  \end{scope}
+  
+  % Arrow P2
+  \draw[arrow] (6.5,0.6) -- (8,0.6) node[midway, above] {\small $P_2$};
+  
+  % After P2 removes bottom right
+  \begin{scope}[shift={(9,0)}]
+    \node[poison] at (0,0) {};
+    \node[chocolate] at (0.6,0) {};
+    \node[eaten] at (1.2,0) {};
+    \node[chocolate] at (0,0.6) {};
+    \node[eaten] at (0.6,0.6) {};
+    \node[eaten] at (1.2,0.6) {};
+    \node[chocolate] at (0,1.2) {};
+    \node[eaten] at (0.6,1.2) {};
+    \node[eaten] at (1.2,1.2) {};
+  \end{scope}
+  
+  % Arrow P1 mimic
+  \draw[arrow] (10.5,0.6) -- (12,0.6) node[midway, above] {\small $P_1$};
+  
+  % After P1 mimics by removing top left
+  \begin{scope}[shift={(13,0)}]
+    \node[poison] at (0,0) {};
+    \node[chocolate] at (0.6,0) {};
+    \node[eaten] at (1.2,0) {};
+    \node[chocolate] at (0,0.6) {};
+    \node[eaten] at (0.6,0.6) {};
+    \node[eaten] at (1.2,0.6) {};
+    \node[eaten] at (0,1.2) {};
+    \node[eaten] at (0.6,1.2) {};
+    \node[eaten] at (1.2,1.2) {};
+  \end{scope}
+  
+  \end{tikzpicture}
+  \end{center}
+  
+  Now, we will prove the existence of a winning strategy for a rectangular board.
+  Make a harmless move by removing the top right square. Now, that board is either a $P$ state or an $N$ state. \\
+  Assume we are in an $N$ state. Whatever move Player 2 makes, Player 1 could have made that same move when they went first. So Player 1 wins. \\
+  On the other hand, being in a $P$ state implies that Player 2 already lost. this is dumbass proof but wtv
+\end{proof}
+\begin{theorem}
+  Let $x$ be a state of a progressively bounded impartial combinatorial game. Then, $ x \in N \cup P$ and $N \cap P = \emptyset$. 
+\end{theorem}
+\begin{proof}
+  This theorem is basically saying that every state is either state $N$ or state $P$ but never both. And from any state, there always exists a winning strategy. Since we are in a progressively bounded game, we have $B(x)$. We are gonna induct on $n = B(x)$. \\
+  The base case is trivial apparently. \\
+  Our inductive hypothesis: if $B(x) = n$, then $x \in P_n \cup N_n$, and $P_n \cap N_n = \emptyset$. \\
+  For our inductive step, we need to prove if $B(x) = n + 1$, then $x \in P_{n + 1} \cup N_{n + 1}$, and $P_{n + 1} \cap N_{n + 1} = \emptyset$. \\
+  Case 1: for any move $x \rightarrow y$, $y \in N_n \implies x \in P_{n + 1}$ \\
+  Case 2: there exists a move $x \rightarrow y$, $y \in P_n \implies x \in N_{n + 1}$
+\end{proof}
+\subsection{Nim}
+  There are several piles of finitely many chips. A player can remove any number of chips from a single pile. Players alternate in turns. The player who takes the last chip wins. \\ \\
+  To start off, let's think about a game with 2 piles with an arbitrary number of chips in them. If one pile has $a$ chips, and the other has $b$ chips this is equivalent to a Chomp game as follows:
+  \begin{center}
+  \begin{tikzpicture}[
+    square/.style={minimum size=0.6cm, draw, thick},
+    chocolate/.style={square, fill=brown!60},
+    poison/.style={square, fill=red!40},
+  ]
+  
+  % Bottom row (a chips, not counting poison)
+  \node[poison] at (0,0) {};
+  \node[chocolate] at (0.6,0) {};
+  \node[chocolate] at (1.2,0) {};
+  \node at (1.8,0) {$\cdots$};
+  \node[chocolate] at (2.4,0) {};
+  
+  % Left column (b chips, not counting poison)
+  \node[chocolate] at (0,0.6) {};
+  \node[chocolate] at (0,1.2) {};
+  \node at (0,1.8) {$\vdots$};
+  \node[chocolate] at (0,2.4) {};
+  
+  % Brace for bottom row (a chips)
+  \draw[decorate, decoration={brace, amplitude=5pt, mirror}] (0.3,-0.5) -- (2.7,-0.5) node[midway, below=5pt] {$a$};
+  
+  % Brace for left column (b chips)
+  \draw[decorate, decoration={brace, amplitude=5pt}] (-0.5,0.3) -- (-0.5,2.7) node[midway, left=5pt] {$b$};
+  
+  \end{tikzpicture}
+  \end{center}
+  We ended class by thinking about the strategy if we had 3 piles.
 \end{document}
