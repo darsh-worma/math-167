@@ -404,4 +404,60 @@ Now, we will talk about potential winning strategies for the Game Chomp.
   \end{tikzpicture}
   \end{center}
   We ended class by thinking about the strategy if we had 3 piles.
+
+
+  \newpage
+  \section{Lecture 4: January 12}
+  We recapped the game of Nim, and started talking about binary numbers for some reason. I'm trying to think about how to motivate thinking about binary numbers in this context.
+
+  \subsection{A Bit of Nim Strategy}
+  \begin{definition}[Nim Sum, $\oplus$]
+    $$0 \oplus 0 = 1 \oplus 1 = 0$$
+    $$1 \oplus 0 = 0 \oplus 1 = 1$$ 
+  \end{definition}
+  \begin{example}
+    $ 3 \oplus 5 = 6$. Convert $3$ and $5$ to binary, add them without carrying anything over, and convert back to decimal.
+  \end{example} 
+  \begin{theorem}
+    A state $(x_1, \dots, x_k)$ is a $P$-position if and only if $x_1 \oplus \dots \oplus x_k = 0$.
+  \end{theorem}
+  \begin{proof}
+    We first claim that at any state $(x_1, \dots, x_k)$ with non-zero Nim sum, there exists a move to a zero Nim sum state. We can illustrate this with an example.
+
+    We also claim that from a zero Nim sum, any move will change the Nim sum to non zero. 
+
+    When $x_1 = \dots = x_k = 0$, this is a $P$ state. The Nim sum is $0 \oplus \dots 0 = 0$. 
+
+    Claim 1: each $N$ position has a move to a $P$ position. \\
+    Claim 2: All moves from a $P$ positiion are going to $N$ position.
+
+    Complete this proof by induction.
+  \end{proof}
+
+  \subsection{Two Person Zero Sum Games}
+  $P_1$ has a non empty set of strategies $S_1$. Similarly, $P_2$ has a non empty set of strategies $S_2$. \\ 
+  A function $A : S_1 \times S_2 \rightarrow \R$ the payoff function for $P_1$.
+  A function $A' : S_1 \times S_2 \rightarrow \R$ the payoff function for $P_2$. \\
+  Then, $A'(s_1, s_2) = -A(s_1, s_2), \forall s_1 \in S_1, s_2 \in S_2$.
+
+  \begin{center}
+  \begin{tabular}{c|cccc}
+    & $s_{21}$ & $s_{22}$ & $\cdots$ & $s_{2n}$ \\
+    \hline
+    $s_{11}$ & $a_{11}$ & $a_{12}$ & $\cdots$ & $a_{1n}$ \\
+    $s_{12}$ & $a_{21}$ & $a_{22}$ & $\cdots$ & $a_{2n}$ \\
+    $\vdots$ & $\vdots$ & $\vdots$ & $\ddots$ & $\vdots$ \\
+    $s_{1m}$ & $a_{m1}$ & $a_{m2}$ & $\cdots$ & $a_{mn}$ \\
+  \end{tabular}
+  \end{center}
+  Note that in these games both players choose their strategy simultaneously like rock paper scissors. In the combinatorial games, the strategy is dependent on what your opponent just played.
+
+  Player 1 bets on $\displaystyle\min_{1 \leq j \leq n} a_{ij}$ and player 2 chooses 
+  $$\max_{1 \leq i \leq m} \, \min_{1 \leq j \leq n} a_{ij}$$
+
+  \begin{theorem}[Min Max Theorem]
+    max min commute in the above thing.
+  \end{theorem}
+
+
 \end{document}
