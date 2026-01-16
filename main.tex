@@ -459,5 +459,25 @@ Now, we will talk about potential winning strategies for the Game Chomp.
     max min commute in the above thing.
   \end{theorem}
 
+\newpage
+\section{Lecture 5: January 14}
+We started class with a quiz on $N$ and $P$ states. \\
+\begin{definition}[Pure Strategy]
+  Both players pick one strategy simultaneously
+\end{definition}
+\begin{definition}[Mixed Strategy]
+  A vector $(p_1, p_2, \dots, p_m)$ such that $\sum_i p_i = 1$. Will a professional poker player always beat a random player?
+\end{definition}
+Player 1 bets on $\min_{1 \leq j \leq n} a_{ij}$ and chooses $\max_{1 \leq i \leq m} min_{1 \leq j \leq n} a_{ij}$. \\
+Player 2 bets on $\min_{1 \leq j \leq n} a_{ij}$ and chooses $\max_{1 \leq i \leq m} min_{1 \leq j \leq n} a_{ij}$. \\
+
+\begin{lemma}
+  $$\max_i \min_j a_{ij} \leq \min_j \max_i a_{ij}$$
+\end{lemma}
+\begin{proof}
+  Suppose $\max_i \min_j = a_{pi}$ and $\min_j \max_i a_{ij} = a_{rs}$.
+  $a_{pq} \leq a_{ps}$ and $a_{ps} \leq a_{rs}$
+  $a_{pq} \leq a_{rs}$
+\end{proof}
 
 \end{document}
