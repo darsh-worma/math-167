@@ -480,4 +480,61 @@ Player 2 bets on $\min_{1 \leq j \leq n} a_{ij}$ and chooses $\max_{1 \leq i \le
   $a_{pq} \leq a_{rs}$
 \end{proof}
 
+\newpage
+
+\section{Lecture 6: January 16}
+We continued talking about the min max theorem with a bunch of examples.
+\begin{theorem}
+  von Neumann's theorem
+\end{theorem}
+
+\newpage
+\section{Lecture 7: January 21}
+\subsection{Domination}
+Given a payoff matrix $A$, suppose for row $i$ and row $j$, we have $a_{ik} \geq a_{jk} \forall k \in [n]$. \\
+Let $A'$ be the payoff matrix after removing the $j$th row. This scenario is called a \textbf{weak domination}, and we say that $A$ dominates $A'$.
+In the condition of $a_{ik} > a_{jk} \forall k \in [n]$, we call this \textbf{strict domination}.
+
+\begin{theorem}
+  For any domination $A, A'$, the values of the games $A, A'$ are equal.
+\end{theorem}
+
+A row / column can be dominated by weighted sums of rows/columns.
+
+\newpage
+\section{Lecture who knows: January 28} 
+This class might be bottom 2 math classes I've taken at UCLA.
+
+\begin{theorem}[Nash Equilibium Exists]
+  Let $\hat{p} = (\hat{p_1}, \dots, \hat{p_m})$ and $\hat{q} = (\hat{q_1}, \dots, \hat{q_m})$ be optimal strategies. Then:
+  $$ \sum_j a_{ij} \hat{q_j} = v \forall i : \hat{p_i} > 0$$
+  $$ \sum_i a_{ij} \hat{p_i} = v \forall j : \hat{q_j} > 0$$
+\end{theorem}
+\begin{proof}
+  Suppose $\hat{p_k} > 0$ and $ \sum_{j=1}^n a_{kj} \hat{q_j} \neq v$. We have $ \sum_{j=1}^n a_{kj} \hat{q_j} \leq  v$. Multiply both sides by 1 (the probability vector), $ v \leq \sum_i \hat{p_i} \sum_{j=1}^n a_{kj} \hat{q_j} < v$, which is a contradiction. 
+\end{proof}
+
+\begin{example}[odd and even game]
+  $$
+  \begin{pmatrix}
+    0 & 0 & 1 & -2 \\
+    1 & 1 & -2 & 3 \\
+    2 & -2 & 3 & -4
+  \end{pmatrix}
+  $$
+  $$
+  \begin{cases}
+    0 \cdot p_1 + 1 \cdot p_2 + 2 \cdot p_3 = v \\
+    p_1 - 2p_2 + 3p_3 = v \\
+    -2p_1 + 3p_2 - 4p_3 = v \\
+    p_1 + p_2 + p_3 = v
+  \end{cases}
+  $$
+  Solving this, we get $p_1 = p_3 = \dfrac{1}{4}$ and $p_2 = \dfrac{1}{2}$, and $v = 0$. 
+  The payoff matrix is symmetric. 
+\end{example}
+
+\begin{theorem}
+  The value of a finite symetric game is zero.
+\end{theorem}
 \end{document}
